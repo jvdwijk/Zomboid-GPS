@@ -1,0 +1,14 @@
+module Bonk {
+    imports {
+        Base
+    }
+
+    item GPS
+    {
+        Type         = Normal,
+        DisplayName  = Ultra High Def GPS,
+        Icon         = GPS,
+        Weight       = 0.1,
+        CustomContextMenu = Je moeder,
+    }
+}
