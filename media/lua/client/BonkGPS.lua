@@ -1,19 +1,23 @@
 BonkGPS = {};
 
 BonkGPS.doMenu = function(player, context, items)
-    -- print("Items:", dump(items))
+    if #items > 1 then 
+        return
+    end 
 
     for i,v in ipairs(items) do
+        local tempitem = v;
+        if not instanceof(v, "InventoryItem") then
+            tempitem = v.items[1];
+        end
 
-        if v.name == "Ultra High Def GPS" then 
-            print("Je dikke mama")
-            context:addOption("Hallo Dikke Man", worldobjects, BonkGPS.test, player);
+        if tempitem:getType() == "GPS" then 
+            local value = v:getModData().testValue;
+            print("testValue: ", value)
+            context:addOption("Hallo Dikke Man", worldobjects, BonkGPS.test, player, tempitem);
         end 
 
-		-- local tempitem = v;
-        -- if not instanceof(v, "InventoryItem") then
-        --     tempitem = v.items[1];
-        -- end
+		-- 
         
 		-- if(getSpecificPlayer(player):getInventory():contains(tempitem) == false) then
 		-- 	if (tempitem:getType().find(tempitem:getType(),HCSleepKey) ~= nil) then
@@ -27,7 +31,15 @@ BonkGPS.doMenu = function(player, context, items)
 end
 
 BonkGPS.test = function(item, player)
+    local playerObj = getSpecificPlayer(player)
+    local gps = playerObj:getInventory():FindAndReturn("GPS");
     print("I have u dun been pressed")
+    print(item)
+    if gps:getModData().testValue == nil then
+        gps:getModData().testValue = 1
+    else 
+        gps:getModData().testValue = gps:getModData().testValue + 1
+    end
 end
 
 Events.OnFillInventoryObjectContextMenu.Add(BonkGPS.doMenu);
