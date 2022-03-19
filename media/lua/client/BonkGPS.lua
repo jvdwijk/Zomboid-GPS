@@ -1,6 +1,9 @@
 require "ISUI/ISCollapsableWindow"
 
-BonkGPS = {};
+BonkGPS.EveryTenMinutes = function()
+    local time = getGameTime()
+    print("Da time is nau ", time:getHour(), time:getMinutes(), time:getTimeOfDay())
+end
 
 BonkGPS.doMenu = function(player, context, items)
     if #items > 1 then 
@@ -14,8 +17,8 @@ BonkGPS.doMenu = function(player, context, items)
         end
 
         if tempitem:getType() == "GPS" then 
-            local value = v:getModData().testValue;
-            print("testValue: ", value)
+            -- local value = v:getModData().testValue;
+            -- print("testValue: ", value)
             context:addOption("Hallo Dikke Man", worldobjects, BonkGPS.test, player, tempitem);
         end 
 
@@ -49,4 +52,5 @@ BonkGPS.test = function(item, player, target)
     end
 end
 
+Events.EveryTenMinutes.Add(BonkGPS.EveryTenMinutes)
 Events.OnFillInventoryObjectContextMenu.Add(BonkGPS.doMenu);
