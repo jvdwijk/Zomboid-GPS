@@ -30,15 +30,13 @@ BonkGPS.doMenu = function(player, context, items)
 	end
 end
 
-BonkGPS.test = function(item, player)
-    local playerObj = getSpecificPlayer(player)
-    local gps = playerObj:getInventory():FindAndReturn("GPS");
+BonkGPS.test = function(item, player, target)
     print("I have u dun been pressed")
-    print(item)
-    if gps:getModData().testValue == nil then
-        gps:getModData().testValue = 1
+
+    if target:getModData().testValue == nil then
+        target:getModData().testValue = 1
     else 
-        gps:getModData().testValue = gps:getModData().testValue + 1
+        target:getModData().testValue = target:getModData().testValue + 1
     end
 end
 
