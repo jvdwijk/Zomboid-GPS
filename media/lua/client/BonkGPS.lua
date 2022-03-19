@@ -1,3 +1,5 @@
+require "ISUI/ISCollapsableWindow"
+
 BonkGPS = {};
 
 BonkGPS.doMenu = function(player, context, items)
@@ -32,6 +34,13 @@ end
 
 BonkGPS.test = function(item, player, target)
     print("I have u dun been pressed")
+
+    local panel = ISCollapsableWindow:new(300, 300, 300, 300);
+    panel:initialise();
+    panel:addToUIManager();
+
+    print("panel")
+    print(panel)
 
     if target:getModData().testValue == nil then
         target:getModData().testValue = 1
