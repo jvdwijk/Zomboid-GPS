@@ -1,4 +1,4 @@
-require "ISUI/ISCollapsableWindow"
+require "bonkGpsUI"
 
 BonkGPS.EveryTenMinutes = function()
     local time = getGameTime()
@@ -17,8 +17,6 @@ BonkGPS.doMenu = function(player, context, items)
         end
 
         if tempitem:getType() == "GPS" then 
-            -- local value = v:getModData().testValue;
-            -- print("testValue: ", value)
             context:addOption("Hallo Dikke Man", worldobjects, BonkGPS.test, player, tempitem);
         end 
 
@@ -38,12 +36,9 @@ end
 BonkGPS.test = function(item, player, target)
     print("I have u dun been pressed")
 
-    local panel = ISCollapsableWindow:new(300, 300, 300, 300);
+    local panel = BonkGpsUI:new(400, 400, target);
     panel:initialise();
     panel:addToUIManager();
-
-    print("panel")
-    print(panel)
 
     if target:getModData().testValue == nil then
         target:getModData().testValue = 1
