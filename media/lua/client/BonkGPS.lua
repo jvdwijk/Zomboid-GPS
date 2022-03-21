@@ -1,8 +1,27 @@
 require "bonkGpsUI"
 
 BonkGPS.EveryTenMinutes = function()
-    local time = getGameTime()
-    print("Da time is nau ", time:getHour(), time:getMinutes(), time:getTimeOfDay())
+    local time = getGameTime();
+    local player = getPlayer();
+    local inv = player:getInventory();
+    local pos = BonkGPS.getPos(player);
+
+    local GPSData = inv:FindAll("GPS")
+    for i=0,GPSData:size()-1 do
+        if GPSData:get(i):getModData().isOn ~= nil and GPSData:get(i):getModData().isOn == true then
+            local chan = GPSData:get(i):getModData().frequency
+            if chan == nil then
+                chan = 0
+            end
+            sendClientCommand(player, 'BonkGPS', 'BonkGPSPosUpdate', {
+                Pos = pos,
+                GameTime = time:getHour() .. time:getMinutes(),
+                Channel = chan,
+            })
+        end
+    end
+
+    
 end
 
 BonkGPS.doMenu = function(player, context, items)
@@ -17,25 +36,22 @@ BonkGPS.doMenu = function(player, context, items)
         end
 
         if tempitem:getType() == "GPS" then 
-            context:addOption("Hallo Dikke Man", worldobjects, BonkGPS.test, player, tempitem);
+            context:addOption("Open GPS Menu", worldobjects, BonkGPS.test, player, tempitem);
         end 
+	end
+end
 
-		-- 
-        
-		-- if(getSpecificPlayer(player):getInventory():contains(tempitem) == false) then
-		-- 	if (tempitem:getType().find(tempitem:getType(),HCSleepKey) ~= nil) then
-		-- 		
-		-- 	end
-		-- 	if (tempitem:getType().find(tempitem:getType(),HCRestKey) ~= nil) then
-		-- 		context:addOption(getText("ContextMenu_Rest"), worldobjects, HCSleep.onRest, player, sleep);
-		-- 	end
-		-- end
+BonkGPS.getPos = function(player)
+	local vehicle = player:getVehicle()
+
+	if vehicle then
+		return {x = vehicle:getX(), y = vehicle:getY(), z = player:getZ()}
+	else
+		return {x = player:getX(), y = player:getY(), z = player:getZ()}
 	end
 end
 
 BonkGPS.test = function(item, player, target)
-    print("I have u dun been pressed")
-
     local panel = BonkGpsUI:new(400, 400, target);
     panel:initialise();
     panel:addToUIManager();

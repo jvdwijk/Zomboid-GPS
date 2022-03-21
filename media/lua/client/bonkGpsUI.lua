@@ -92,9 +92,9 @@ function BonkGpsUI:switchGpsOnState()
 end
 
 function BonkGpsUI:updateOnOffButtonText()
-    local onOffButtonTitle = "Turn Off";
+    local onOffButtonTitle = "Turn On";
     if self.gps:getModData().isOn then
-        onOffButtonTitle = "Turn On";
+        onOffButtonTitle = "Turn Off";
     end
     self.onOffButton.title = onOffButtonTitle;
 end
